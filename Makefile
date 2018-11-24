@@ -4,7 +4,7 @@ all: build
 .PHONY : all
 
 test:
-	go test
+	go test ./...
 
 lint:
 	golint .
