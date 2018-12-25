@@ -6,6 +6,8 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+// InitLogging initilizes the log subsystem with the default
+// log level or one provided via environment variable LOG_LEVEL
 func InitLogging() {
 	var logLevel log.Level
 
