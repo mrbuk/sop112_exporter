@@ -4,11 +4,11 @@ all: build
 .PHONY : all
 
 test:
-	go test ./...
+	ginkgo -r
 
 lint:
 	golint .
 
 build: test lint
-	mkdir -p builds
-	go build -o ./builds/${name}
+	mkdir -p build
+	go build -o ./build/${name}

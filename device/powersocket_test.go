@@ -1,11 +1,11 @@
-package main_test
+package device_test
 
 import (
 	"encoding/json"
 	"net/http"
 	"time"
 
-	. "github.com/mrbuk/sop112_exporter"
+	. "github.com/mrbuk/sop112_exporter/device"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

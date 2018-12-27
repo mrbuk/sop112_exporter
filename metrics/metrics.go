@@ -1,14 +1,16 @@
-package main
+package metrics
 
 import (
+	"github.com/mrbuk/sop112_exporter/device"
 	"github.com/prometheus/client_golang/prometheus"
 
 	log "github.com/sirupsen/logrus"
 )
 
 // Collector describes how metrics are collected
+//go:generate counterfeiter . Collector
 type Collector interface {
-	Collect(device Powersocket)
+	Collect(device device.Powersocket)
 }
 
 // MetricCollector allows collections of Powersocket measures into
@@ -27,13 +29,13 @@ func NewMetricCollector(metric *prometheus.GaugeVec, errs *prometheus.CounterVec
 }
 
 // Collect the metrics of a Powersocket into the provided GaugeVec
-func (c *MetricCollector) Collect(device *Powersocket) {
+func (c *MetricCollector) Collect(deviceLabel string, device device.Measureable) {
 	measurement, err := device.Get()
 	if err != nil {
 		log.Errorf("Error fetching metrics: %v", err)
-		c.errs.With(prometheus.Labels{"device": device.Name}).Inc()
+		c.errs.With(prometheus.Labels{"device": deviceLabel}).Inc()
 		return
 	}
 
-	c.metric.With(prometheus.Labels{"device": device.Name}).Set(measurement)
+	c.metric.With(prometheus.Labels{"device": deviceLabel}).Set(measurement)
 }

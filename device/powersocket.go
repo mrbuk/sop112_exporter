@@ -1,4 +1,4 @@
-package main
+package device
 
 import (
 	"encoding/json"
@@ -44,6 +44,7 @@ type PowerConsumptionData struct {
 }
 
 // Measureable describes how a measuring can be executed
+//go:generate counterfeiter . Measureable
 type Measureable interface {
 	Get() (float64, error)
 }
