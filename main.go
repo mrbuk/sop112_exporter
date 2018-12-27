@@ -36,7 +36,7 @@ func init() {
 	InitLogging()
 
 	// Metrics have to be registered to be exposed:
-	prometheus.MustRegister(powerConsumption)
+	prometheus.MustRegister(powerConsumption, errs)
 }
 
 func main() {
@@ -56,6 +56,6 @@ func collectMetrics() {
 		for _, device := range devices {
 			go c.Collect(device)
 		}
-		time.Sleep(time.Duration(1 * time.Second))
+		time.Sleep(time.Duration(5 * time.Second))
 	}
 }
