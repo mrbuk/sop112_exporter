@@ -23,6 +23,13 @@ var (
 	},
 		[]string{"device"},
 	)
+
+	errs = prometheus.NewCounterVec(prometheus.CounterOpts{
+		Name: "powersocket_errors",
+		Help: "Errors occured talking to powersockets",
+	},
+		[]string{"device"},
+	)
 )
 
 func init() {
@@ -43,7 +50,7 @@ func main() {
 }
 
 func collectMetrics() {
-	c := NewMetricCollector(powerConsumption)
+	c := NewMetricCollector(powerConsumption, errs)
 
 	for {
 		for _, device := range devices {

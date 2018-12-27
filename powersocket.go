@@ -76,6 +76,7 @@ func (ps *Powersocket) Get() (float64, error) {
 	if err != nil {
 		return 0.0, err
 	}
+	defer response.Body.Close()
 
 	body, err := ioutil.ReadAll(response.Body)
 	if err != err {

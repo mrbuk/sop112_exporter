@@ -15,11 +15,15 @@ type Collector interface {
 // Prometheus metrics
 type MetricCollector struct {
 	metric *prometheus.GaugeVec
+	errs   *prometheus.CounterVec
 }
 
 // NewMetricCollector creates a new MetricCollector
-func NewMetricCollector(metric *prometheus.GaugeVec) *MetricCollector {
-	return &MetricCollector{metric: metric}
+func NewMetricCollector(metric *prometheus.GaugeVec, errs *prometheus.CounterVec) *MetricCollector {
+	return &MetricCollector{
+		metric: metric,
+		errs:   errs,
+	}
 }
 
 // Collect the metrics of a Powersocket into the provided GaugeVec
@@ -27,6 +31,7 @@ func (c *MetricCollector) Collect(device *Powersocket) {
 	measurement, err := device.Get()
 	if err != nil {
 		log.Errorf("Error fetching metrics: %v", err)
+		c.errs.With(prometheus.Labels{"device": device.Name}).Inc()
 		return
 	}
 
