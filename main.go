@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"net/http"
 	"os"
 
@@ -15,11 +16,6 @@ import (
 )
 
 var (
-	devices = []*device.Powersocket{
-		device.NewPowersocket("SWP1040003000954", "192.168.178.108"),
-		device.NewPowersocket("SWP1040003000536", "192.168.178.107"),
-	}
-
 	powerConsumption = prometheus.NewGaugeVec(prometheus.GaugeOpts{
 		Name: "powersocket_consumption_watts",
 		Help: "Current power consumption of the socket",
@@ -43,16 +39,34 @@ func init() {
 }
 
 func main() {
+	listenAddrPtr := flag.String("listen", ":9132", "address to expose metrics endpoint")
+	broadcastPtr := flag.String("broadcast", "", "broadcast address to be used for device detected (required)")
+	flag.Parse()
+
+	if *broadcastPtr == "" {
+		flag.Usage()
+		os.Exit(1)
+	}
+
+	// detect devices in network
+	devices, err := device.Detect(*broadcastPtr)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Printf("Detected devices %s", devices)
+
 	// fetch measurements from SOP112 devices
-	go collectMetrics()
+	go collectMetrics(devices)
 
 	// The Handler function provides a default handler to expose metrics
 	// via an HTTP server. "/metrics" is the usual endpoint for that.
+	log.Printf("Listening on %s", *listenAddrPtr)
 	http.Handle("/metrics", promhttp.Handler())
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(*listenAddrPtr, nil))
 }
 
-func collectMetrics() {
+func collectMetrics(devices []*device.Powersocket) {
 	c := metrics.NewMetricCollector(powerConsumption, errs)
 
 	for {
