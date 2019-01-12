@@ -101,3 +101,7 @@ func (ps *Powersocket) Get() (float64, error) {
 
 	return wattage, nil
 }
+
+func (ps *Powersocket) String() {
+	fmt.Sprintf("%s[%s]", ps.Name, ps.IP)
+}
