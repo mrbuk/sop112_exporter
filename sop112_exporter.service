@@ -1,0 +1,12 @@
+[Unit]
+Description=SOP112 Exporter
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+ExecStart=/usr/bin/docker start -a sop112_exporter
+ExecStop=/usr/bin/docker stop -t 10 sop112_exporter
+
+[Install]
+WantedBy=multi-user.target
