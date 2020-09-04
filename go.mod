@@ -1,6 +1,6 @@
 module github.com/mrbuk/sop112_exporter
 
-go 1.14
+go 1.15
 
 require (
 	github.com/onsi/ginkgo v1.13.0
