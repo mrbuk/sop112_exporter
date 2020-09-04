@@ -14,7 +14,7 @@ import (
 
 // defaultTimeout for the http.Client used to connect
 // to the Powersocket
-var defaultTimeout = 10
+var defaultTimeout = 3
 
 // Powersocket describes a SOP112 power socket by Name (serial number) and IP
 type Powersocket struct {
