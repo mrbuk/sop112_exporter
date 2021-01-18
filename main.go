@@ -69,6 +69,12 @@ func main() {
 func collectMetrics(devices []*device.Powersocket) {
 	c := metrics.NewMetricCollector(powerConsumption, errs)
 
+	// set timeout of device to be shorter than the sleep
+	// to avoid calls pilling up in case of connectivity issues
+	for _, device := range devices {
+		device.SetTimeout(3 * time.Second)
+	}
+
 	for {
 		for _, device := range devices {
 			go c.Collect(device.Name, device)
