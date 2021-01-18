@@ -1,5 +1,5 @@
 name = sop112_exporter
-version = 0.3
+version = 0.4
 user = mrbuk
 
 all: build
