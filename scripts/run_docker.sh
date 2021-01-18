@@ -9,4 +9,4 @@ docker run --init \
     -e BCAST_ADDRESS=192.168.178.255 \
     -p 9132:9132 \
     --name sop112_exporter \
-    mrbuk/sop112_exporter:0.3
+    mrbuk/sop112_exporter:0.4
