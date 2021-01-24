@@ -79,7 +79,7 @@ func collectMetrics(devices []*device.Powersocket) {
 		for _, device := range devices {
 			go c.Collect(device.Name, device)
 		}
-		time.Sleep(time.Duration(5 * time.Second))
+		time.Sleep(time.Duration(15 * time.Second))
 	}
 }
 

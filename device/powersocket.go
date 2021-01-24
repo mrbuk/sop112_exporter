@@ -12,9 +12,9 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// defaultTimeout for the http.Client used to connect
+// defaultTimeout in seconds for the http.Client used to connect
 // to the Powersocket
-var defaultTimeout = 3
+var defaultTimeout = 10
 
 // Powersocket describes a SOP112 power socket by Name (serial number) and IP
 type Powersocket struct {
