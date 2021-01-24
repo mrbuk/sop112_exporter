@@ -36,5 +36,5 @@ docker-save:
 	docker save ${user}/${name}:latest -o images/${user}_${name}_latest.tgz
 
 install-service:
-	./scriptsinstall-service.sh ${name}.service
+	./scripts/install-service.sh ${name}.service
 

@@ -1,6 +1,7 @@
 [Unit]
 Description=SOP112 Exporter
 Requires=docker.service
+PartOf=docker.service
 After=docker.service
 
 [Service]
